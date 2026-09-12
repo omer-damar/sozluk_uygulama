@@ -1,25 +1,64 @@
-# İngilizce-Türkçe Sözlük
-Projemiz C# tabanlı ,veritabanı Sql Server Management tarafından sağlanan bir kelime oyunudur.
+# English–Turkish Vocabulary Learning App
 
-#Modüller
+A collaborative desktop application designed to make vocabulary learning measurable and engaging. The app combines personal vocabulary management, a six-stage spaced-repetition system, progress analytics and word games in a C# Windows Forms interface.
 
--Kullanıcı Kayıt, şifremi unuttum ve giriş bölümlerini barındırır.
+## Key Features
 
--Kelime Ekleme özelliği barındırır.(İngilizce kelime, Türkçe karşılığı, İngilizce kelimenin birden çok cümle içerisinde geçmesi, Kelime ile ilgili bir resim)
+- **User accounts:** registration, sign-in and password recovery
+- **Vocabulary management:** add English words, Turkish meanings, example sentences and related images
+- **Six-stage learning cycle:** mastered answers are reviewed after 1 day, 1 week, 1 month, 3 months, 6 months and 1 year
+- **Adaptive quizzes:** an incorrect answer restarts that word's learning cycle
+- **Custom study settings:** configure how many new words appear in a session
+- **Progress analytics:** review learning performance by category and print reports
+- **Learning games:** reinforce vocabulary with Wordle and Word Chain
 
--Sınav modülünü barındırır:
-Temel 6 Sefer Quiz Sorularının Belirlenme Algoritması: Bir soruyu hakkı ile bilmesi için altı kez üst üste doğru cevabı işaretlemesi lazım. Eğer 6 kez aynı soru için doğru cevabı vermez ise, süreç o soru için başa döner ve 6 kez aynı soru için doğru cevabı vermesi beklenir. Bilinen bir sorunun testte öğrenciye sorulması için kullanılacak zaman aralığı; 1 gün sonra, 1 hafta sonra,1 ay sonra,3 ay sonra,6 ay sonra ve 1 yıl sonra. Eğer 6 farklı zamanda da aynı soruyu doğru olarak bilmiş isek o zaman o soruyu soru havuzundan bilinen soru havuzuna taşı. Sınıfta verilen örnekler harici, bir örnek aşağıda verilmiştir.
-08.02.2024 (Çarşamba) günü.
-İlk on soru 8,12,13,33,54,55,86,87, 19, 10 -> Bu sorulardan 8,12,86,87,19 numaralı kelimeleri 08.03.2022 tarihinden doğru cevapladı.
-09.02.2024 (Perşembe) günü.
-Dünden bilinen kelimeler yani 8,12,86,87,19 numaralı kelimeler ile rast gele seçilen dün bildiği kelimeler hariç 10 kelime daha eklensin yani ezberlemesi için gelecek 2,5,6,78,45,14,56,57,80,81.
-Öğrenci dün bildiği 5 kelimeden bu sefer 3 tanesini yani 8,12,87 numaralı kelimeleri bildi ve bugün karşılaştığı 45,14,56,57,80,81 numaralı kelimeleri bilsin.
-15.02.2024 (Çarşamba Günü)Bir önceki haftadan bildiği kelimeler 8,12,87 ve dünden yani 14.03 günü itibari ile bildiği kelimeler ve o güne ait karşısına çıkan rastgele 10 kelime üzerinden aynı mantık ile test olsun.
+## Tech Stack
 
--Kullanıcı kendi ekranında bulunan ayarlar kısmından yeni kelime çıkma sayısını değiştirebilir.
+- **Language:** C#
+- **Desktop UI:** Windows Forms
+- **Runtime:** .NET Framework 4.7.2
+- **Database:** Microsoft SQL Server
+- **Data access:** ADO.NET / System.Data.SqlClient
 
--Kullanıcı çözümlediği kelimeler üzerinden bir analiz raporu alabilir. Bu raporda da öğrencinin hangi konular ile ilgili yüzdesel olarak ne kadar başarılı olduğunu görebilir. Bu rapor istendiğinde kağıt üzerinden çıktı alınabilir.
+## Project Structure
 
--Kullanıcı menüden ayrıca Wordle oyunu ile kelime öğrenimini arttırabilir.
+- `Form*.cs` — application screens and UI workflows
+- `DBManager.cs` — SQL Server connection management
+- `Oturum.cs` — session-related state
+- `Ayarlar.cs` — study preferences and application settings
+- `database/` — database backup files used by the application
 
--Kullanıcı menüden ayrıca bir başka oyun olan Word Chian ile kelime öğrenimini arttırabilir.
+## Getting Started
+
+### Requirements
+
+- Windows
+- Visual Studio with the **.NET desktop development** workload
+- .NET Framework 4.7.2
+- Microsoft SQL Server and SQL Server Management Studio
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/omer-damar/sozluk_uygulama.git
+   ```
+
+2. Open `İngilizce Türkçe Sözlük/Proje Deneme Yanılma.sln` in Visual Studio.
+3. Restore the database backups in the `database/` directory using SQL Server Management Studio.
+4. Open `DBManager.cs` and replace the local SQL Server instance name in the connection strings with your own instance.
+5. Confirm that the restored databases are named `kullanici_bilgi` and `sozluk_vocabulary`.
+6. Build and run the project from Visual Studio.
+
+## Learning Model
+
+Each word progresses through six successful reviews. Reviews are scheduled at increasingly longer intervals: **1 day → 1 week → 1 month → 3 months → 6 months → 1 year**. A wrong answer resets the progress for that word, helping reinforce long-term recall.
+
+## Notes
+
+This project was developed as a collaborative academic application. The current database configuration targets a local SQL Server instance and should be updated before running the project on another machine.
+
+## Contributors
+
+See the repository's [contributors page](https://github.com/omer-damar/sozluk_uygulama/graphs/contributors) for the full collaboration history.
