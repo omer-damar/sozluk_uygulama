@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
@@ -14,16 +15,16 @@ namespace Proje_Deneme_Yanılma
     {
         public static SqlConnection BaglantiGetir(VeritabaniTipi tip)
         {
-            string connectionString = "";
+            string connectionStringName;
 
             switch (tip)
-            {   //Giriş yapma,kayıt olma, şifre sıfırlama işlemleri için kullanıcı bilgilerini tutan veritabanı.
+            {
                 case VeritabaniTipi.KullaniciBilgi:
-                    connectionString = "Data Source=omer;Initial Catalog=kullanici_bilgi;Integrated Security=True;TrustServerCertificate=True";
+                    connectionStringName = "KullaniciBilgi";
                     break;
-                //Kelime ekleme, silme, güncelleme işlemleri için kelimeleri tutan veritabanı.
+
                 case VeritabaniTipi.SozlukVocabulary:
-                    connectionString = "Data Source=omer;Initial Catalog=sozluk_vocabulary;Integrated Security=True;TrustServerCertificate=True";
+                    connectionStringName = "SozlukVocabulary";
                     break;
 
                 default:
@@ -31,24 +32,43 @@ namespace Proje_Deneme_Yanılma
                     return null;
             }
 
+            ConnectionStringSettings settings =
+                ConfigurationManager.ConnectionStrings[connectionStringName];
+
+            if (settings == null || string.IsNullOrWhiteSpace(settings.ConnectionString))
+            {
+                MessageBox.Show(
+                    "Veritabanı bağlantı ayarı bulunamadı: " + connectionStringName,
+                    "Yapılandırma Hatası",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return null;
+            }
+
             try
             {
-                SqlConnection baglanti = new SqlConnection(connectionString);
+                SqlConnection baglanti = new SqlConnection(settings.ConnectionString);
                 baglanti.Open();
-                
                 return baglanti;
             }
             catch (SqlException ex)
             {
-                MessageBox.Show("Veritabanı bağlantı hatası:\n" + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Veritabanı bağlantı hatası:\n" + ex.Message,
+                    "Hata",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
                 return null;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Beklenmeyen bir hata oluştu:\n" + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Beklenmeyen bir hata oluştu:\n" + ex.Message,
+                    "Hata",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
                 return null;
             }
         }
     }
 }
-
